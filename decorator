@@ -1,0 +1,31 @@
+# Декоратор класу
+def log_instance_creation(cls):
+    # Зберігаємо оригінальний __init__
+    original_init = cls.__init__
+
+    # Визначаємо новий __init__ з додатковим повідомленням
+    def new_init(self, *args, **kwargs):
+        print(f"Створено екземпляр класу: {cls.__name__}")
+        original_init(self, *args, **kwargs)
+
+    # Замінюємо __init__ в класі
+    cls.__init__ = new_init
+    return cls
+
+
+# Використання декоратора на класі
+@log_instance_creation
+class Person:
+    def __init__(self, name):
+        self.name = name
+
+
+@log_instance_creation
+class Car:
+    def __init__(self, model):
+        self.model = model
+
+
+# Тестування
+p = Person("Андрій")
+c = Car("Toyota")
